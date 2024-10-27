@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vídeo em Tempo Real</title>
+    <!-- Atualiza a página a cada 5 segundos -->
+    <meta http-equiv="refresh" content="5">
+</head>
+<body>
+    <h1>Vídeo em Tempo Real</h1>
+    <img src="/video_feed" width="640" height="480" alt="Feed de Vídeo">
+
+    <h2>Resultados</h2>
+    <div id="prediction">Carregando...</div>
+
+    <script>
+        async function fetchPrediction() {
+            try {
+                const response = await fetch('/predict');
+                const data = await response.json();
+                
+                // Atualiza o resultado no HTML
+                document.getElementById('prediction').innerHTML = `
+                    <p>Classe Principal: ${data.main_class}</p>
+                    <p>Probabilidade: ${(data.main_probability * 100).toFixed(2)}%</p>
+                    <h3>Outras Classes:</h3>
+                    <ul>
+                        ${data.other_classes.map(cls => `<li>${cls.class}: ${(cls.probability * 100).toFixed(2)}%</li>`).join('')}
+                    </ul>
+                `;
+            } catch (error) {
+                console.error('Erro ao buscar predição:', error);
+            }
+        }
+
+        // Atualiza o resultado da inferência a cada segundo
+        setInterval(fetchPrediction, 1000);
+    </script>
+</body>
+</html>
