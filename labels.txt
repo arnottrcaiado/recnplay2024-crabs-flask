@@ -1,4 +1,4 @@
-0 Class 1
-1 Class 2
-2 Class 3
-3 Class 4
+0 papel
+1 case
+2 pessoa
+3 NDE
