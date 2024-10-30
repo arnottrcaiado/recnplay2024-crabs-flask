@@ -1,17 +1,12 @@
-markdown
-Copiar código
-# Projeto de Detecção em Tempo Real com Flask e TensorFlow Lite
+# Projeto de Detecção com Flask e TensorFlow Lite
 
-Este projeto visa criar um sistema de detecção em tempo real utilizando Flask para fornecer uma API e uma interface web que permite exibir o resultado das inferências de um modelo de classificação de imagens com TensorFlow Lite. As imagens são capturadas de uma câmera conectada ao dispositivo e processadas para classificação de objetos ou padrões.
+Este projeto utiliza Flask para fornecer uma API e uma interface web para um modelo de detecção de classes usando TensorFlow Lite. A aplicação realiza inferências em imagens capturadas pela câmera em tempo real, mostrando o feed de vídeo e os resultados da classificação em uma página HTML.
 
-### Principais Objetivos
+## Visão Geral do Projeto
 
-- **Inferência em Tempo Real**: Executar um modelo de detecção de classes utilizando TensorFlow Lite para identificar objetos ou padrões nas imagens capturadas pela câmera em tempo real.
-- **Interface de Visualização Web**: Exibir o feed de vídeo da câmera e os resultados das inferências diretamente em uma página web acessível por navegador.
-- **API com Flask**: Disponibilizar uma API para que os resultados das inferências possam ser acessados por outros dispositivos ou aplicações, possibilitando integração entre dispositivos, como entre dois Raspberry Pi.
-- **Opção de Conexão entre Dispositivos**: Permitir que o projeto seja executado com interligação entre dois Raspberry Pi via rede, seja pela rede local (Wi-Fi) ou por cabo Ethernet, facilitando o uso em aplicações distribuídas.
-
----
+1. **Inferência com TensorFlow Lite**: Carrega um modelo TFLite para realizar inferências sobre imagens capturadas pela câmera.
+2. **Serviço Flask**: Fornece uma API para acessar as inferências e uma página web que exibe o feed de vídeo em tempo real e os resultados das classificações.
+3. **Threading**: O processamento da câmera e a inferência do modelo ocorrem em uma thread separada para melhorar o desempenho.
 
 ## Configuração do Ambiente
 
@@ -27,46 +22,47 @@ Este projeto visa criar um sistema de detecção em tempo real utilizando Flask 
 1. **Instale o Homebrew** (caso ainda não tenha):
    ```bash
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-Instale o Python:
 
-bash
-Copiar código
-brew install python
-Clone o Repositório e Instale Dependências:
 
-bash
-Copiar código
-git clone <URL_DO_REPOSITORIO>
-cd <PASTA_DO_PROJETO>
-python3 -m venv venv
-source venv/bin/activate
-pip install flask tensorflow opencv-python-headless numpy
+
+2. Instale o Python:
+
+   brew install python
+   
+4. Clone o Repositório e Instale Dependências:
+
+   git clone <URL_DO_REPOSITORIO>
+   cd <PASTA_DO_PROJETO>
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install flask tensorflow opencv-python-headless numpy
+   
 Raspberry Pi
-Atualize o Sistema e Instale Dependências:
+1. Atualize o Sistema e Instale Dependências:
 
-bash
-Copiar código
-sudo apt update
-sudo apt upgrade
-sudo apt install python3-pip python3-venv
-Clone o Repositório e Instale Dependências:
+   sudo apt update
+   sudo apt upgrade
+   sudo apt install python3-pip python3-venv
 
-bash
-Copiar código
-git clone <URL_DO_REPOSITORIO>
-cd <PASTA_DO_PROJETO>
-python3 -m venv venv
-source venv/bin/activate
-pip install flask tensorflow opencv-python-headless numpy
-Verifique o Acesso à Câmera:
+2. Clone o Repositório e Instale Dependências:
 
-Certifique-se de que o Raspberry Pi tem acesso à câmera (ativa no raspi-config).
+   git clone <URL_DO_REPOSITORIO>
+   cd <PASTA_DO_PROJETO>
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install flask tensorflow opencv-python-headless numpy
+   
+3. Verifique o Acesso à Câmera:
+
+   Certifique-se de que o Raspberry Pi tem acesso à câmera (ativa no raspi-config).
+
 Windows
-Instale o Python:
+1. Instale o Python:
 
-Baixe e instale o Python em python.org.
-Certifique-se de selecionar a opção Add Python to PATH durante a instalação.
-Clone o Repositório e Instale Dependências:
+   Baixe e instale o Python em python.org.
+   Certifique-se de selecionar a opção Add Python to PATH durante a instalação.
+
+2. Clone o Repositório e Instale Dependências:
 
 Abra o PowerShell ou o CMD:
 bash
@@ -236,13 +232,14 @@ while True:
     time.sleep(2)  # Aguardar 2 segundos antes da próxima solicitação
 Substitua <IP_DO_RASPBERRY_PI> pelo IP do Raspberry Pi que está rodando o servidor.
 Esse código solicita a predição a cada 2 segundos e exibe os resultados.
-Considerações para Produção
-Para produção, use um servidor WSGI como Gunicorn para executar o Flask. Em um Raspberry Pi, recomenda-se usar um único worker:
 
-bash
-Copiar código
+# Notas para Produção
+Para produção, use um servidor WSGI como Gunicorn para executar o Flask. Em um Raspberry Pi, 
+recomenda-se usar um único worker:
+
+
 gunicorn -w 1 -b 0.0.0.0:5001 app:app
 
 
-Considerações Finais
+# Considerações Finais
 Este projeto fornece uma interface leve para inferência de modelos com TensorFlow Lite e Flask, utilizando uma câmera para capturar imagens em tempo real. O código é otimizado para ser executado em dispositivos com recursos limitados, como o Raspberry Pi, mas pode ser expandido conforme necessário para atender a requisitos específicos.
